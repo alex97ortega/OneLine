@@ -5,8 +5,10 @@ using UnityEngine.UI;
 
 public class Pointer : MonoBehaviour {
 
-    public Sprite pointerSprite;
+    Sprite pointerSprite;
 	
+    public void SetSprite(Sprite newSprite) { pointerSprite = newSprite; }
+
     public void TapPointer(float x, float y)
     {
         GetComponent<Image>().sprite = pointerSprite;

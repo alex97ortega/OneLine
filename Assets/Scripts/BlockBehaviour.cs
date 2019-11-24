@@ -5,7 +5,16 @@ using UnityEngine.UI;
 
 public class BlockBehaviour : MonoBehaviour {
 
-    public Sprite normalImg, tappedImg;
+    public Sprite normalImg;
+    public GameObject[] dirs;
+
+    GameObject lastDir;
+
+    public enum Dirs
+    {
+        left, right, up, down
+    }
+    Sprite tappedImg;
 
     bool tapped = false;
     bool isFirst = false;
@@ -35,6 +44,7 @@ public class BlockBehaviour : MonoBehaviour {
     {
         if (!isFirst && tapped)
         {
+            CleanDirItems();
             tapped = false;
             GetComponent<Image>().sprite = normalImg;
             return true;
@@ -57,9 +67,28 @@ public class BlockBehaviour : MonoBehaviour {
 
     public int GetFila() { return fila; }
     public int GetColumna() { return columna; }
+    public void SetSprite(Sprite newSprite) { tappedImg = newSprite; }
 
     public void SetFirst() {
         isFirst = tapped = true;
         GetComponent<Image>().sprite = tappedImg;
+    }
+
+    // esto es por pura estética, cuadraditos blancos que van 
+    // mostrando visualmente el camino
+    public void ActiveDirItem(Dirs dir)
+    {
+        lastDir = dirs[(int)dir];
+        lastDir.SetActive(true);
+    }
+    public void DisactiveLastDir()
+    {
+        if(lastDir)
+            lastDir.SetActive(false);
+    }
+    public void CleanDirItems()
+    {
+        foreach (var x in dirs)
+            x.SetActive(false);
     }
 }
