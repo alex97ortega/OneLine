@@ -27,7 +27,8 @@ public class BlockBehaviour : MonoBehaviour {
                 GetComponentInParent<Grid>().CheckFinish();
             }
         }
-        else GetComponentInParent<Grid>().CheckPosibleUntap(this);
+        else
+            GetComponentInParent<Grid>().UntapOlders(this);
     }
     // devuelve true si se puede deseleccionar
     public bool Untap()

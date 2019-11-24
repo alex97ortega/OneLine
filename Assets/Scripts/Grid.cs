@@ -15,6 +15,9 @@ public class Grid : MonoBehaviour {
     private const int separation = 70;
     private BlockBehaviour[,] grid;
 
+    //provisional hasta que haya un levelmanager
+    bool win = false;
+
     // necesito una pila que guarde el orden de selección
     private Stack<BlockBehaviour> ordenSeleccionados;
 
@@ -44,7 +47,8 @@ public class Grid : MonoBehaviour {
             if (!b.IsTapped())
                 return;
         }
-        Debug.Log("Win!");
+        Debug.Log("Win !");
+        win = true;
     }
 
     // solo puedo seleccionar una nueva casilla si 
@@ -72,25 +76,17 @@ public class Grid : MonoBehaviour {
         return false;
     }
 
-    // solo puedo deseleccionar una casilla si la que estoy seleccionando
-    // actualmente es colindante a la última seleccionada que tenemos.
-    // y si no es el primero de todos
-    public void CheckPosibleUntap(BlockBehaviour blockTapped)
+    // deselecciono todo el camino recorrido hasta la casilla 
+    // que estamos seleccionando actualmente
+    public void UntapOlders(BlockBehaviour blockTapped)
     {
-        BlockBehaviour ultimoSelecc = ordenSeleccionados.Peek();
-
-        int N = blockTapped.GetFila() - 1;
-        int S = blockTapped.GetFila() + 1;
-        int W = blockTapped.GetColumna() - 1;
-        int E = blockTapped.GetColumna() + 1;
-
-        if ((N > -1 && grid[N, blockTapped.GetColumna()] == ultimoSelecc) ||
-            (S < filas && grid[S, blockTapped.GetColumna()] == ultimoSelecc) ||
-            (E < columnas && grid[blockTapped.GetFila(), E] == ultimoSelecc) ||
-            (W > -1 && grid[blockTapped.GetFila(), W] == ultimoSelecc))
+        if (!win)
         {
-            if(ultimoSelecc.Untap())
+            while (ordenSeleccionados.Peek() != blockTapped)
+            {
+                ordenSeleccionados.Peek().Untap();
                 ordenSeleccionados.Pop();
-        }
+            }
+        }        
     }
 }
