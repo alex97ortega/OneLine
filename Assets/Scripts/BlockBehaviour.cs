@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class BlockBehaviour : MonoBehaviour {
 
@@ -32,7 +31,7 @@ public class BlockBehaviour : MonoBehaviour {
             if(GetComponentInParent<Grid>().CanBeTapped(this))
             {
                 tapped = true;
-                GetComponent<Image>().sprite = tappedImg;
+                GetComponent<SpriteRenderer>().sprite = tappedImg;
                 GetComponentInParent<Grid>().CheckFinish();
             }
         }
@@ -46,7 +45,7 @@ public class BlockBehaviour : MonoBehaviour {
         {
             CleanDirItems();
             tapped = false;
-            GetComponent<Image>().sprite = normalImg;
+            GetComponent<SpriteRenderer>().sprite = normalImg;
             return true;
         }
         return false;
@@ -55,7 +54,7 @@ public class BlockBehaviour : MonoBehaviour {
     {
         return tapped;
     }
-    public void SetPos(int x, int y) {
+    public void SetPos(float x, float y) {
 
         transform.position = new Vector3(x, y, 0);
     }
@@ -71,7 +70,7 @@ public class BlockBehaviour : MonoBehaviour {
 
     public void SetFirst() {
         isFirst = tapped = true;
-        GetComponent<Image>().sprite = tappedImg;
+        GetComponent<SpriteRenderer>().sprite = tappedImg;
     }
 
     // esto es por pura estética, cuadraditos blancos que van 

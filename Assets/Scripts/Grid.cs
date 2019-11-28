@@ -12,10 +12,10 @@ public class Grid : MonoBehaviour {
     public int filas;
     public int columnas;
 
-    public int posxIni;
-    public int posyIni;
+    public float posxIni;
+    public float posyIni;
 
-    private const int separation = 70;
+    public float separation;
     private BlockBehaviour[,] tablero;
 
     //provisional hasta que haya un levelmanager
