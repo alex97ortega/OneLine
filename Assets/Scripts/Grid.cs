@@ -9,16 +9,17 @@ public class Grid : MonoBehaviour {
     public BlockBehaviour blockPrefab;
     public Pointer pointer;
     
-    public float posxIni;
-    public float posyIni;
-
     public float separation;
     private BlockBehaviour[,] tablero;
 
     //provisional hasta que haya un levelmanager
     bool win = false;
+
     uint filas;
     uint columnas;
+
+    float posxIni;
+    float posyIni;
 
     // necesito una pila que guarde el orden de selección
     private Stack<BlockBehaviour> ordenSeleccionados;
@@ -36,6 +37,8 @@ public class Grid : MonoBehaviour {
         tablero = new BlockBehaviour[filas, columnas];
         ordenSeleccionados = new Stack<BlockBehaviour>();
 
+        posxIni = (columnas-1) * (-separation/2);
+        posyIni = (filas-1) * (separation/2);
         // creo el grid
         for (int i = 0; i < filas; i++)
         {
@@ -147,6 +150,15 @@ public class Grid : MonoBehaviour {
                 b.Tap();
                 return;
             }
+        }
+    }
+    public void RestartGrid()
+    {
+        while (ordenSeleccionados.Count != 1)
+        {
+            ordenSeleccionados.Peek().Untap();
+            ordenSeleccionados.Pop();
+            ordenSeleccionados.Peek().DisactiveLastDir();
         }
     }
 }
