@@ -8,10 +8,7 @@ public class Grid : MonoBehaviour {
 
     public BlockBehaviour blockPrefab;
     public Pointer pointer;
-
-    public int filas;
-    public int columnas;
-
+    
     public float posxIni;
     public float posyIni;
 
@@ -20,38 +17,53 @@ public class Grid : MonoBehaviour {
 
     //provisional hasta que haya un levelmanager
     bool win = false;
+    uint filas;
+    uint columnas;
 
     // necesito una pila que guarde el orden de selección
     private Stack<BlockBehaviour> ordenSeleccionados;
-
-    // Use this for initialization
-    void Start () {
-
+    
+    public void GenerateGrid(LevelInfo levelInfo)
+    {
         // primero inicializo un color aleatorio del tablero
         Sprite rdnBlock, rdnPointer;
         GetComponent<SetRandomColor>().SetRandomColors(out rdnBlock, out rdnPointer);
 
         pointer.SetSprite(rdnPointer);
 
-        tablero = new BlockBehaviour[filas,columnas];
+        filas = levelInfo.Height;
+        columnas = levelInfo.Width;
+        tablero = new BlockBehaviour[filas, columnas];
+        ordenSeleccionados = new Stack<BlockBehaviour>();
 
         // creo el grid
-        for(int i = 0; i < filas; i++)
+        for (int i = 0; i < filas; i++)
         {
             for (int j = 0; j < columnas; j++)
             {
-                tablero[i, j] = Instantiate(blockPrefab);
-                tablero[i, j].transform.SetParent(gameObject.transform);
-                tablero[i, j].SetPos(posxIni + (separation * j), posyIni - (separation * i));
-                tablero[i, j].SetCasilla(i, j);
-                tablero[i, j].SetSprite(rdnBlock);  
+                if(levelInfo.blocks[i,j] != LevelInfo.BlockType.EMPTY)
+                {
+                    tablero[i, j] = Instantiate(blockPrefab);
+                    tablero[i, j].transform.SetParent(gameObject.transform);
+                    tablero[i, j].SetPos(posxIni + (separation * j), posyIni - (separation * i));
+                    tablero[i, j].SetCasilla(i, j);
+                    tablero[i, j].SetSprite(rdnBlock);
+
+                    if(levelInfo.blocks[i, j] == LevelInfo.BlockType.FIRST)
+                    {
+                        if(ordenSeleccionados.Count != 0)
+                        {
+                            Debug.Log("No puede haber 2 primeras casillas!!");
+                            return;
+                        }
+                        tablero[i, j].SetFirst();
+                        ordenSeleccionados.Push(tablero[i, j]);
+                    }
+                }
             }
         }
+    }
 
-        tablero[0, 0].SetFirst();
-        ordenSeleccionados = new Stack<BlockBehaviour>();
-        ordenSeleccionados.Push(tablero[0, 0]);
-	}
     // ahora este método se llama cada vez que se selecciona una nueva casilla
     // pero en el juego no es así, sólo se llama aquí cuando se levante el dedo
     // de la pantalla
@@ -121,9 +133,9 @@ public class Grid : MonoBehaviour {
             {
                 ordenSeleccionados.Peek().Untap();
                 ordenSeleccionados.Pop();
+                ordenSeleccionados.Peek().DisactiveLastDir();
             }
         }
-        ordenSeleccionados.Peek().DisactiveLastDir();
     }
 
     public void OnTouchDown(float x, float y)
