@@ -10,12 +10,9 @@ public class Pointer : MonoBehaviour {
 
     public void TapPointer(float x, float y)
     {
-        float realX = x / 108.0f;
-        float realY = y / 192.0f;
-
         GetComponent<SpriteRenderer>().sprite = pointerSprite;
         GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 255);
-        transform.position = new Vector3(realX-1, realY+1, 0);
+        transform.position = new Vector3(x, y, 0);
     }
     public void UntapPointer()
     {

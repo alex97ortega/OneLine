@@ -125,4 +125,16 @@ public class Grid : MonoBehaviour {
         }
         ordenSeleccionados.Peek().DisactiveLastDir();
     }
+
+    public void OnTouchDown(float x, float y)
+    {
+        foreach (var b in tablero)
+        {
+            if (b && b.Inside(x,y))
+            {
+                b.Tap();
+                return;
+            }
+        }
+    }
 }

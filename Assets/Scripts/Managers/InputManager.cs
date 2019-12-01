@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour {
 
+    public Camera mainCamera;
     public Pointer pointer;
+    public Grid grid;
 
     // Update is called once per frame
     void Update()
@@ -21,11 +23,11 @@ public class InputManager : MonoBehaviour {
     {
         if (Input.GetMouseButton(0))
         {
-            pointer.TapPointer(Input.mousePosition.x, Input.mousePosition.y);
+            OnTouchDown(Input.mousePosition);
         }
         else if (Input.GetMouseButtonUp(0))
         {
-            pointer.UntapPointer();
+            OnTouchUp();
         }
     }
 #else
@@ -34,11 +36,34 @@ public class InputManager : MonoBehaviour {
         if(Input.touchCount>0)
         {
             Touch tch = Input.GetTouch(0);
-            pointer.TapPointer(tch.position.x, tch.position.y);
-
-            if (tch.phase == TouchPhase.Ended)
-                pointer.UntapPointer();
+            switch (tch.phase)
+            {
+                case TouchPhase.Began:
+                    OnTouchDown(tch.position);
+                    break;
+                case TouchPhase.Ended:
+                    OnTouchUp();
+                    break;
+                case TouchPhase.Moved:
+                    break;
+            }                
         }
     }
 #endif
+    private Vector2 ToWorldPoint(Vector3 screenPoint)
+    {
+        Vector3 vect = new Vector3(screenPoint.x, screenPoint.y, -10);
+        Vector2 ret = mainCamera.ScreenToWorldPoint(vect);
+        return ret;
+    }
+    private void OnTouchDown(Vector3 screenPoint)
+    {
+        Vector2 worldPos = ToWorldPoint(screenPoint);
+        pointer.TapPointer(-worldPos.x, -worldPos.y);
+        grid.OnTouchDown(-worldPos.x, -worldPos.y);
+    }
+    private void OnTouchUp()
+    {
+        pointer.UntapPointer();
+    }
 }

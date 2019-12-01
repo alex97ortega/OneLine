@@ -90,4 +90,15 @@ public class BlockBehaviour : MonoBehaviour {
         foreach (var x in dirs)
             x.SetActive(false);
     }
+    public bool Inside(float x, float y)
+    {
+        float scaleX = transform.localScale.x/2;
+        float scaleY = transform.localScale.y/2;
+
+        if (x < (transform.position.x-scaleX) || x > (transform.position.x + scaleX))
+            return false;
+        if (y < (transform.position.y-scaleY) || y > (transform.position.y + scaleY))
+            return false;
+        return true;
+    }
 }
