@@ -11,17 +11,18 @@ public class LevelConstructor : MonoBehaviour {
 
     private void Start()
     {
-        BuildLevel(0);//quitar
+        BuildLevel(1);//quitar
     }
     // this is called by GameManager when the player clicks a levelIndex
     public void BuildLevel(uint levelIndex)
     {
-        LevelInfo levelInfo = LevelParser.Parse(levels[levelIndex].text);
+        LevelInfo levelInfo = LevelParser.Parse(levels[0].text,levelIndex);
 
         //LogLevel(levelInfo);
 
-        //Build the grid
-        grid.GenerateGrid(levelInfo);
+        //creo el grid si he podido paresearlo
+        if(levelInfo != null)
+            grid.GenerateGrid(levelInfo);
     }
 
     private void LogLevel(LevelInfo levelInfo)
