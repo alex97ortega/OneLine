@@ -11,9 +11,9 @@ public class LevelConstructor : MonoBehaviour {
 
     private void Start()
     {
-        BuildLevel(1);//quitar
+        uint level = FindObjectOfType<GameManager>().GetCurrentLevel();
+        BuildLevel(level);
     }
-    // this is called by GameManager when the player clicks a levelIndex
     public void BuildLevel(uint levelIndex)
     {
         LevelInfo levelInfo = LevelParser.Parse(levels[0].text,levelIndex);

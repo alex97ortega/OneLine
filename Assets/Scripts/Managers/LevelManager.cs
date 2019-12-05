@@ -14,4 +14,8 @@ public class LevelManager : MonoBehaviour {
     {
         grid.RestartGrid();
     }
+    public void Back()
+    {
+        FindObjectOfType<GameManager>().ChangeScene("SelectLevel");
+    }
 }
