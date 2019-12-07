@@ -1,25 +1,31 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
-{
-    // Start is called before the first frame update
+{    
+    public enum Difficulty
+    {
+        BEGINNER,
+        REGULAR,
+        ADVANCED,
+        EXPERT,
+        MASTER
+    }
     uint curentLevel;
+    Difficulty currentDifficulty;
+
     void Start()
     {
         DontDestroyOnLoad(gameObject);
     }
-
-    public void ChangeScene(string scene)
-    {
-        SceneManager.LoadScene(scene);
-    }
-    public void StartLevel(uint level)//falta la dificultad
+    
+    public void StartLevel(uint level)
     {
         curentLevel = level;
-        ChangeScene("GamePlay");
     }
     public uint GetCurrentLevel() { return curentLevel; }
+
+    public Difficulty GetCurrentDifficulty() {  return currentDifficulty; }
+    public void SetDifficulty(uint dif) { currentDifficulty = (Difficulty)dif; }
 }

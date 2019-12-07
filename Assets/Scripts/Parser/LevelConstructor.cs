@@ -15,25 +15,29 @@ public class LevelConstructor : MonoBehaviour {
         if (gm)
         {
             uint level = FindObjectOfType<GameManager>().GetCurrentLevel();
-            BuildLevel(level);
+            GameManager.Difficulty difficulty = FindObjectOfType<GameManager>().GetCurrentDifficulty();
+            BuildLevel(difficulty,level);
         }
         else
             Debug.Log("No hay GameManager!!");
     }
 
-    public void BuildLevel(uint levelIndex)
+    public void BuildLevel(GameManager.Difficulty difficulty,uint levelIndex)
     {
-        LevelInfo levelInfo = LevelParser.Parse(levels[0].text,levelIndex);
+        LevelInfo levelInfo = LevelParser.Parse(levels[(int)difficulty].text,levelIndex);
 
-        //LogLevel(levelInfo);
+        //LogLevel(difficulty, levelIndex, levelInfo);
 
         //creo el grid si he podido paresearlo
         if(levelInfo != null)
             grid.GenerateGrid(levelInfo);
     }
 
-    private void LogLevel(LevelInfo levelInfo)
+    private void LogLevel(GameManager.Difficulty difficulty, uint level, LevelInfo levelInfo)
     {
+        
+        Debug.Log("Nivel " + level + " de dificultad " + difficulty);
+
         Debug.Log("filas: " + levelInfo.Height);
         Debug.Log("columnas: " + levelInfo.Width);
 

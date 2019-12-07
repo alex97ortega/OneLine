@@ -113,11 +113,11 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 24
-    m_FontStyle: 0
+    m_FontSize: 35
+    m_FontStyle: 1
     m_BestFit: 0
-    m_MinSize: 10
-    m_MaxSize: 40
+    m_MinSize: 3
+    m_MaxSize: 58
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -138,6 +138,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelIndex: 0
   text: {fileID: 114397847955548418}
+  scenesManager: {fileID: 0}
 --- !u!114 &114440024973885474
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -230,6 +231,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelIndex: 1
   text: {fileID: 114397847955548418}
+  scenesManager: {fileID: 0}
 --- !u!222 &222040234891604958
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -305,5 +307,5 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -320, y: 520}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 120, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}

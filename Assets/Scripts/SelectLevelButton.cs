@@ -7,6 +7,7 @@ public class SelectLevelButton : MonoBehaviour
 {
     public uint levelIndex;
     public Text text;
+    public ScenesManager scenesManager;
 
     private void Start()
     {
@@ -19,10 +20,6 @@ public class SelectLevelButton : MonoBehaviour
     }
     public void StartLevel()
     {
-        GameManager gm = FindObjectOfType<GameManager>();
-        if (gm)
-            gm.StartLevel(levelIndex);
-        else
-            Debug.Log("No hay GameManager!!");
+        scenesManager.ChangeToGamePlay(levelIndex);
     }
 }
