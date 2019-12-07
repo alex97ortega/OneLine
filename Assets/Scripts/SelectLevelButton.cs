@@ -19,6 +19,10 @@ public class SelectLevelButton : MonoBehaviour
     }
     public void StartLevel()
     {
-        FindObjectOfType<GameManager>().StartLevel(levelIndex);
+        GameManager gm = FindObjectOfType<GameManager>();
+        if (gm)
+            gm.StartLevel(levelIndex);
+        else
+            Debug.Log("No hay GameManager!!");
     }
 }

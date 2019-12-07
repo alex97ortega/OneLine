@@ -25,13 +25,7 @@ public class LevelParser {
         uint width = (uint)fileParsed.GetLength(1);
         uint height = (uint)fileParsed.GetLength(0);
         
-        LevelInfo.BlockType[,] blockInfo = new LevelInfo.BlockType[height,width];
-
-        for (int i = 0; i < height; i++)
-            for (int j = 0; j < width; j++)
-                blockInfo[i, j] = fileParsed[i, j];
-
-        LevelInfo levelInfo = new LevelInfo(width, height, blockInfo);
+        LevelInfo levelInfo = new LevelInfo(width, height, fileParsed);
 
         return levelInfo;
     }
