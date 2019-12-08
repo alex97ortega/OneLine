@@ -34,6 +34,22 @@ public class ScenesManager : MonoBehaviour {
         else
             Debug.Log("No hay GameManager!!");
     }
+    public void ChangeToGamePlayNextLevel()
+    {
+        GameManager gm = FindObjectOfType<GameManager>();
+        if (gm)
+        {
+            if (gm.GetNextLevelToPass((int)gm.GetCurrentDifficulty()) == gm.GetCurrentLevel())
+                Debug.Log("He llegado al tope de niveles de dificultad " + gm.GetCurrentDifficulty().ToString());
+            else
+            {
+                gm.StartLevel(gm.GetCurrentLevel() + 1);
+                ChangeScene("GamePlay");
+            }
+        }
+        else
+            Debug.Log("No hay GameManager!!");
+    }
     void ChangeScene(string scene)
     {
         SceneManager.LoadScene(scene);

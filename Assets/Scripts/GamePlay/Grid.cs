@@ -6,13 +6,16 @@ using UnityEngine;
 
 public class Grid : MonoBehaviour {
 
+    public LevelManager levelManager;
+
     public BlockBehaviour blockPrefab;
     public Pointer pointer;
     
     public float separation;
     private BlockBehaviour[,] tablero;
 
-    //provisional hasta que haya un levelmanager
+    // esta variable está solo para que no se puedan
+    //  quitar bloques marcados al acabar un nivel
     bool win = false;
 
     uint filas;
@@ -77,8 +80,8 @@ public class Grid : MonoBehaviour {
             if (b && !b.IsTapped())
                 return;
         }
-        Debug.Log("Win !");
         win = true;
+        levelManager.Win();
     }
 
     // solo puedo seleccionar una nueva casilla si 
@@ -138,7 +141,7 @@ public class Grid : MonoBehaviour {
                 ordenSeleccionados.Pop();
                 ordenSeleccionados.Peek().DisactiveLastDir();
             }
-        }
+        }     
     }
 
     public void OnTouchDown(float x, float y)
