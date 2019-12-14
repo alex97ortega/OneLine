@@ -160,7 +160,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -590,6 +590,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99d465736ceb7f7409b174c970470de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxLevels: 0f0000000a000000080000000500000005000000
 --- !u!4 &1657432017
 Transform:
   m_ObjectHideFlags: 0

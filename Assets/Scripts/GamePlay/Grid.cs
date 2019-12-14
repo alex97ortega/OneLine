@@ -15,7 +15,7 @@ public class Grid : MonoBehaviour {
     private BlockBehaviour[,] tablero;
 
     // esta variable está solo para que no se puedan
-    //  quitar bloques marcados al acabar un nivel
+    // quitar bloques marcados al acabar un nivel
     bool win = false;
 
     uint filas;
@@ -68,12 +68,17 @@ public class Grid : MonoBehaviour {
                 }
             }
         }
+        // hacemos el grid más pequeño para cuando el tablero sea de 7 filas o más
+        // para que no se salga de los bordes
+        if (filas == 7) //EXPERT
+            transform.localScale = new Vector3(0.9f, 0.9f, 1.0f);
+        else if (filas == 8) //MASTER
+            transform.localScale = new Vector3(0.8f, 0.8f, 1.0f);
     }
 
-    // ahora este método se llama cada vez que se selecciona una nueva casilla
-    // pero en el juego no es así, sólo se llama aquí cuando se levante el dedo
-    // de la pantalla
-	public void CheckFinish()
+    // sólo se llama aquí para ver si se ha acabado la partida
+    // cuando se levante el dedo de la pantalla
+    public void CheckFinish()
     {
         foreach(var b in tablero)
         {

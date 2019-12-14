@@ -32,7 +32,6 @@ public class BlockBehaviour : MonoBehaviour {
             {
                 tapped = true;
                 GetComponent<SpriteRenderer>().sprite = tappedImg;
-                GetComponentInParent<Grid>().CheckFinish();
             }
         }
         else

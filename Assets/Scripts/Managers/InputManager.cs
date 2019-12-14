@@ -45,6 +45,7 @@ public class InputManager : MonoBehaviour {
                     OnTouchUp();
                     break;
                 case TouchPhase.Moved:
+                    OnTouchDown(tch.position);
                     break;
             }                
         }
@@ -65,5 +66,6 @@ public class InputManager : MonoBehaviour {
     private void OnTouchUp()
     {
         pointer.UntapPointer();
+        grid.CheckFinish();
     }
 }

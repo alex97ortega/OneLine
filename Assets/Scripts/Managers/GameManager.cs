@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {    
+
     public enum Difficulty
     {
         BEGINNER,
@@ -15,6 +16,8 @@ public class GameManager : MonoBehaviour
         MASTER, 
         NUM_DIFFICULTIES
     }
+    public int[] maxLevels;
+
     uint currentLevel;
 
     struct DifficultyLevelsInfo
@@ -35,7 +38,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < infoDifficulties.Length; i++)
         {
             infoDifficulties[i].nextLevelToPass = 1;
-            infoDifficulties[i].maxLevels = 10;
+            infoDifficulties[i].maxLevels = (uint)maxLevels[i];
         }
     }
     
