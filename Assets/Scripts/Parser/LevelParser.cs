@@ -54,29 +54,26 @@ public class LevelParser {
                 row++;
                 col = 0;
             }
-            // la 's' marca la casilla de salida
-            else if (c == 's')
+            // la 'a' marca la casilla de salida
+            else if (c == 'a')
             {
                 blocks[row - 1].Add(LevelInfo.BlockType.FIRST);
                 col++;
             }
-            // casilla normal
-            else if (c == 'o')
-            {
-                blocks[row - 1].Add(LevelInfo.BlockType.NORMAL);
-                col++;
-            }
-            // casilla vacía
-            else if (c == 'x')
+            // casilla vacía es un espacio
+            else if (c == ' ')
             {
                 blocks[row - 1].Add(LevelInfo.BlockType.EMPTY);
                 col++;
             }
-            // no debería haber otro caracter distinto a los anteriores
-            // pero si es así, lo ignoro y tirando palante
-            else 
+            // el resto de letras representa el camino y son casillas normales.
+            // no se qué narices es el caracter 13, me sale como si fuera
+            // un espacio en blanco pero eso ya lo trato arriba, y me 
+            // estropea la conversión si no hago esto
+            else if (c != 13)
             {
-                //Debug.Log("Caracter incorrecto en el parseado: " + c);
+                blocks[row - 1].Add(LevelInfo.BlockType.NORMAL);
+                col++;
             }
         }
 

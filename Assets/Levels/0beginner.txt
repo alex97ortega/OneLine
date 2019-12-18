@@ -1,20 +1,20 @@
 1
-soo
+abc
 2
-oox
-soo
+bc 
+ade
 3
-xos
-xoo
-ooo
+ ba
+ cd
+gfe
 4
-ooox
-soox
-xooo
+bcd 
+afe 
+ ghi
 5
-oooo
-oooo
-oxxs
+hgdc
+ifeb
+j  a
 6
 osxo
 oooo
