@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     public int[] maxLevels;
 
     uint currentLevel;
+    uint coins;
 
     struct DifficultyLevelsInfo
     {
@@ -42,15 +43,16 @@ public class GameManager : MonoBehaviour
         }
     }
     
+    // DIFICULTIES
+    public Difficulty GetCurrentDifficulty() {  return currentDifficulty; }
+    public void SetDifficulty(uint dif) { currentDifficulty = (Difficulty)dif; }
+
+    // LEVEL
     public void StartLevel(uint level)
     {
         currentLevel = level;
     }
     public uint GetCurrentLevel() { return currentLevel; }
-
-    public Difficulty GetCurrentDifficulty() {  return currentDifficulty; }
-    public void SetDifficulty(uint dif) { currentDifficulty = (Difficulty)dif; }
-
     public uint GetNextLevelToPass(int difficulty) { return infoDifficulties[difficulty].nextLevelToPass; }
     public uint GetMaxLevels(int difficulty) { return infoDifficulties[difficulty].maxLevels; }
 
@@ -70,5 +72,20 @@ public class GameManager : MonoBehaviour
             return false;
         }
         return true;
+    }
+
+    //COINS
+    public uint GetCoins() { return coins; }
+    public void AddCoins(uint quantity) { coins += quantity; }
+    // devuelve si ha podido remover la cantidad indicada de monedas, 
+    // ya que no se pueden gastar más de las que se tengan en el momento
+    public bool RemoveCoins(uint quantity)
+    {
+        if(quantity <= coins)
+        {
+            coins -= quantity;
+            return true;
+        }
+        return false;
     }
 }

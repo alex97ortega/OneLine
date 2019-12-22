@@ -50,6 +50,10 @@ public class ScenesManager : MonoBehaviour {
         else
             Debug.Log("No hay GameManager!!");
     }
+    public void Quit()
+    {
+        Application.Quit();
+    }
     void ChangeScene(string scene)
     {
         SceneManager.LoadScene(scene);
