@@ -17,7 +17,7 @@ public class SetRandomColor : MonoBehaviour {
         }
         else
         {
-            int rdn = Random.Range(0, blocks.Length - 1);
+            int rdn = Random.Range(0, blocks.Length);
             block = blocks[rdn];
             pointer = pointers[rdn];
         }

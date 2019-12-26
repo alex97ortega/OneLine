@@ -54,8 +54,8 @@ public class LevelParser {
                 row++;
                 col = 0;
             }
-            // la 'a' marca la casilla de salida
-            else if (c == 'a')
+            // la 'A' marca la casilla de salida
+            else if (c == 'A')
             {
                 blocks[row - 1].Add(LevelInfo.BlockType.FIRST);
                 col++;
