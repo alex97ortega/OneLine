@@ -8,7 +8,12 @@ using UnityEngine.Advertisements;
 
 public class AdsManager : MonoBehaviour {
 
-    public void ShowAdv()
+    int _type;
+
+    // type: 0 para dar monedas
+    //       1 para challenge
+    //       2 para monedas x2 en challenge
+    public void ShowAdv(int type)
     {
 #if UNITY_ADS
         string videoID = "rewardedVideo";
@@ -16,6 +21,7 @@ public class AdsManager : MonoBehaviour {
             Debug.LogWarning("Video not available");
         else
         {
+            _type = type;
             ShowOptions options = new ShowOptions();
             options.resultCallback = OnAddResult;
             Advertisement.Show(videoID, options);
@@ -25,14 +31,47 @@ public class AdsManager : MonoBehaviour {
 #if UNITY_ADS
     private void OnAddResult(ShowResult result)
     {
-        //call the GameManager to give coins
+        //do action
         if(result == ShowResult.Finished)
         {
-            GameManager gm = FindObjectOfType<GameManager>();
-            if (gm)
+            switch (_type)
             {
-                gm.AddCoins(20);
+                case 0:
+                    {
+                        GameManager gm = FindObjectOfType<GameManager>();
+                        if (gm)
+                        {
+                            gm.AddCoins(20);
+                        }
+                        break;
+                    }
+                case 1:
+                    {
+                        ScenesManager sm = FindObjectOfType<ScenesManager>();
+                        if (sm)
+                        {
+                            sm.ChangeToChallenge(0);
+                        }
+                        break;
+                    }
+                case 2:
+                    {
+                        GameManager gm = FindObjectOfType<GameManager>();
+                        if (gm)
+                        {
+                            gm.AddCoins(100);
+                            ScenesManager sm = FindObjectOfType<ScenesManager>();
+                            if (sm)
+                            {
+                                sm.ChangeToMainMenu();
+                            }
+                        }
+                        break;
+                    }
+                default:
+                    break;
             }
+            
         }
     }
 #endif

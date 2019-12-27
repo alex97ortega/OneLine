@@ -9,6 +9,17 @@ public class ScenesManager : MonoBehaviour {
     {
         ChangeScene("MainMenu");
     }
+    public void ChangeToMainMenuWithCoins(int coins)
+    {
+        GameManager gm = FindObjectOfType<GameManager>();
+        if (gm)
+        {
+            gm.AddCoins((uint)coins);
+        }
+        else
+            Debug.Log("No hay GameManager!!");
+        ChangeScene("MainMenu");
+    }
     public void ChangeToSelectLevel(int difficulty)
     {
         GameManager gm = FindObjectOfType<GameManager>();
@@ -45,6 +56,22 @@ public class ScenesManager : MonoBehaviour {
             {
                 gm.StartLevel(gm.GetCurrentLevel() + 1);
                 ChangeScene("GamePlay");
+            }
+        }
+        else
+            Debug.Log("No hay GameManager!!");
+    }
+    public void ChangeToChallenge(int cost)
+    {
+        GameManager gm = FindObjectOfType<GameManager>();
+        if (gm)
+        {
+            if (gm.GetNextLevelToPass((int)gm.GetCurrentDifficulty()) == gm.GetCurrentLevel())
+                Debug.Log("He llegado al tope de niveles de dificultad " + gm.GetCurrentDifficulty().ToString());
+            else
+            {
+                if(gm.RemoveCoins((uint)cost))
+                    ChangeScene("Challenge");
             }
         }
         else

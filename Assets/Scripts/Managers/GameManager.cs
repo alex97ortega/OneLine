@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     public int[] maxLevels;
 
     uint currentLevel;
-    uint coins;
+    uint coins = 50;
 
     struct DifficultyLevelsInfo
     {

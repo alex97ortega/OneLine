@@ -5,7 +5,7 @@ using UnityEngine;
 public class LevelConstructor : MonoBehaviour {
 
     public Grid grid;
-
+    public bool challengue;
     // fichero de texto text asset para arrastrar
     public TextAsset[] levels;
 
@@ -14,9 +14,23 @@ public class LevelConstructor : MonoBehaviour {
         GameManager gm = FindObjectOfType<GameManager>();
         if (gm)
         {
-            uint level = FindObjectOfType<GameManager>().GetCurrentLevel();
-            GameManager.Difficulty difficulty = FindObjectOfType<GameManager>().GetCurrentDifficulty();
-            BuildLevel(difficulty,level);
+            GameManager.Difficulty difficulty;
+            uint level;
+            // nivel aleatorio de regular para arriba, para darle algo de emoción
+            if (challengue)
+            {
+                difficulty = 
+                    (GameManager.Difficulty)(Random.Range(1, (int)(GameManager.Difficulty.NUM_DIFFICULTIES)));
+                level = (uint)(Random.Range(1, FindObjectOfType<GameManager>().GetMaxLevels((int)difficulty)));
+            }
+            // nivel que corresponda
+            else
+            {
+                difficulty = FindObjectOfType<GameManager>().GetCurrentDifficulty();
+                level = FindObjectOfType<GameManager>().GetCurrentLevel();         
+            }
+
+            BuildLevel(difficulty, level);
         }
         else
             Debug.Log("No hay GameManager!!");

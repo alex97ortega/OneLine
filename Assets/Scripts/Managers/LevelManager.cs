@@ -9,17 +9,25 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour {
 
     public GameObject winMenu, nextLevelButton;
+    public Timer challengeTimer;
 
     public void Win()
     {
-        GameManager gm = FindObjectOfType<GameManager>();
-        if(gm)
+        winMenu.SetActive(true);
+        // digamos que si existe el timer del modo challenge es que estamos en modo challenge
+        if (challengeTimer)
+            challengeTimer.Stop();
+        // si no, estamos en modo normal
+        else
         {
-            bool existeNextLevel = gm.LevelPassed();
-            winMenu.SetActive(true);
-            // no activo el botón de siguiente nivel si no hay más niveles de esta dificultad
-            if(!existeNextLevel)
-                nextLevelButton.SetActive(false);
-        }
+            GameManager gm = FindObjectOfType<GameManager>();
+            if (gm)
+            {
+                bool existeNextLevel = gm.LevelPassed();
+                // no activo el botón de siguiente nivel si no hay más niveles de esta dificultad
+                if (!existeNextLevel)
+                     nextLevelButton.SetActive(false);                
+            }
+        }        
     }
 }
