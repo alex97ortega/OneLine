@@ -80,6 +80,9 @@ public class Grid : MonoBehaviour {
     // cuando se levante el dedo de la pantalla
     public void CheckFinish()
     {
+        if (win)
+            return;
+
         foreach(var b in tablero)
         {
             if (b && !b.IsTapped())

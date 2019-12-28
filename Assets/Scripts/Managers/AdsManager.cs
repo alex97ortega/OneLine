@@ -9,16 +9,20 @@ using UnityEngine.Advertisements;
 public class AdsManager : MonoBehaviour {
 
     int _type;
+    uint coinsToGive;
 
     // type: 0 para dar monedas
     //       1 para challenge
-    //       2 para monedas x2 en challenge
+    //       2 para monedas x2
     public void ShowAdv(int type)
     {
 #if UNITY_ADS
         string videoID = "rewardedVideo";
-        if (!Advertisement.IsReady(videoID))        
+        if (!Advertisement.IsReady(videoID))
+        {
             Debug.LogWarning("Video not available");
+            coinsToGive = 0;
+        }        
         else
         {
             _type = type;
@@ -41,7 +45,8 @@ public class AdsManager : MonoBehaviour {
                         GameManager gm = FindObjectOfType<GameManager>();
                         if (gm)
                         {
-                            gm.AddCoins(20);
+                            gm.AddCoins(coinsToGive);
+                            coinsToGive = 0;
                         }
                         break;
                     }
@@ -59,7 +64,8 @@ public class AdsManager : MonoBehaviour {
                         GameManager gm = FindObjectOfType<GameManager>();
                         if (gm)
                         {
-                            gm.AddCoins(100);
+                            gm.AddCoins(coinsToGive*2);
+                            coinsToGive = 0;
                             ScenesManager sm = FindObjectOfType<ScenesManager>();
                             if (sm)
                             {
@@ -75,5 +81,9 @@ public class AdsManager : MonoBehaviour {
         }
     }
 #endif
+    public void AddCoins(int coins)
+    {
+        coinsToGive = (uint)coins;
+    }
 }
 

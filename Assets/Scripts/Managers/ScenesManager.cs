@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class ScenesManager : MonoBehaviour {
 
+    // TO MAIN MENU
     public void ChangeToMainMenu()
     {
         ChangeScene("MainMenu");
@@ -20,20 +21,23 @@ public class ScenesManager : MonoBehaviour {
             Debug.Log("No hay GameManager!!");
         ChangeScene("MainMenu");
     }
+    // TO SELECT LEVEL
+    public void ChangeToSelectLevel()
+    {
+        ChangeScene("SelectLevel");
+    }
     public void ChangeToSelectLevel(int difficulty)
     {
         GameManager gm = FindObjectOfType<GameManager>();
         if (gm)
         {
-            // si pasamos -1 significa que no hace falta cambiar la dificultad
-            if (difficulty == -1)
-                difficulty = (int)gm.GetCurrentDifficulty();
             gm.SetDifficulty((uint)difficulty);
             ChangeScene("SelectLevel");
         }
         else
             Debug.Log("No hay GameManager!!");
     }
+    // TO GAMEPLAY
     public void ChangeToGamePlay(uint level)
     {
         GameManager gm = FindObjectOfType<GameManager>();
@@ -61,6 +65,7 @@ public class ScenesManager : MonoBehaviour {
         else
             Debug.Log("No hay GameManager!!");
     }
+    // TO CHALLENGE
     public void ChangeToChallenge(int cost)
     {
         GameManager gm = FindObjectOfType<GameManager>();
@@ -77,6 +82,7 @@ public class ScenesManager : MonoBehaviour {
         else
             Debug.Log("No hay GameManager!!");
     }
+    // OTHERS
     public void Quit()
     {
         Application.Quit();
