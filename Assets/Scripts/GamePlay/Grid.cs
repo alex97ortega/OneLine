@@ -107,29 +107,25 @@ public class Grid : MonoBehaviour {
 
         if (N > -1       && tablero[N, lastTapped.GetColumna()] == blockTapped)
         {
-            lastTapped.ActiveDirItem(BlockBehaviour.Dirs.up);
-            blockTapped.ActiveDirItem(BlockBehaviour.Dirs.down);
+            lastTapped.ActivateDirItem(BlockBehaviour.Dirs.up);
             ordenSeleccionados.Push(blockTapped);
             return true;
         }
         if  (S < filas    && tablero[S, lastTapped.GetColumna()] == blockTapped)
         {
-            lastTapped.ActiveDirItem(BlockBehaviour.Dirs.down);
-            blockTapped.ActiveDirItem(BlockBehaviour.Dirs.up);
+            lastTapped.ActivateDirItem(BlockBehaviour.Dirs.down);
             ordenSeleccionados.Push(blockTapped);
             return true;
         }
         if  (E < columnas && tablero[lastTapped.GetFila(),    E] == blockTapped)
         {
-            lastTapped.ActiveDirItem(BlockBehaviour.Dirs.right);
-            blockTapped.ActiveDirItem(BlockBehaviour.Dirs.left);
+            lastTapped.ActivateDirItem(BlockBehaviour.Dirs.right);
             ordenSeleccionados.Push(blockTapped);
             return true;
         }
         if  (W > -1       && tablero[lastTapped.GetFila(),    W] == blockTapped)
         {
-            lastTapped.ActiveDirItem(BlockBehaviour.Dirs.left);
-            blockTapped.ActiveDirItem(BlockBehaviour.Dirs.right);
+            lastTapped.ActivateDirItem(BlockBehaviour.Dirs.left);
             ordenSeleccionados.Push(blockTapped);
             return true;
         }
@@ -147,7 +143,7 @@ public class Grid : MonoBehaviour {
             {
                 ordenSeleccionados.Peek().Untap();
                 ordenSeleccionados.Pop();
-                ordenSeleccionados.Peek().DisactiveLastDir();
+                ordenSeleccionados.Peek().DisactivateDirItem();
             }
         }     
     }
@@ -169,7 +165,7 @@ public class Grid : MonoBehaviour {
         {
             ordenSeleccionados.Peek().Untap();
             ordenSeleccionados.Pop();
-            ordenSeleccionados.Peek().DisactiveLastDir();
+            ordenSeleccionados.Peek().DisactivateDirItem();
         }
     }
 }

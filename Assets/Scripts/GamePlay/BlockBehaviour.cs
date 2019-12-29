@@ -5,10 +5,8 @@ using UnityEngine;
 public class BlockBehaviour : MonoBehaviour {
 
     public Sprite normalImg;
-    public GameObject[] dirs;
-
-    GameObject lastDir;
-
+    public GameObject mark;
+    
     public enum Dirs
     {
         left, right, up, down
@@ -20,8 +18,12 @@ public class BlockBehaviour : MonoBehaviour {
 
     private int fila, columna;
 
+    Quaternion initialMarkRot;
+
     // Use this for initialization
-    void Start () {
+    void Start ()
+    {
+        initialMarkRot = mark.transform.rotation;
 	}
 	
     public void Tap()
@@ -42,7 +44,7 @@ public class BlockBehaviour : MonoBehaviour {
     {
         if (!isFirst && tapped)
         {
-            CleanDirItems();
+            DisactivateDirItem();
             tapped = false;
             GetComponent<SpriteRenderer>().sprite = normalImg;
             return true;
@@ -74,20 +76,35 @@ public class BlockBehaviour : MonoBehaviour {
 
     // esto es por pura estética, cuadraditos blancos que van 
     // mostrando visualmente el camino
-    public void ActiveDirItem(Dirs dir)
+    public void ActivateDirItem(Dirs dir)
     {
-        lastDir = dirs[(int)dir];
-        lastDir.SetActive(true);
+        mark.SetActive(true);
+        switch(dir)
+        {
+            case Dirs.up:
+                mark.transform.RotateAround(new Vector3(0, 0, 0), new Vector3(0, 0, 1), 90);
+                mark.transform.localPosition = new Vector3(0, 0.55f, 0);
+                break;
+            case Dirs.down:
+                mark.transform.RotateAround(new Vector3(0, 0, 0), new Vector3(0, 0, -1), 90);
+                mark.transform.localPosition = new Vector3(0, -0.55f, 0);
+                break;
+            case Dirs.left:
+                mark.transform.RotateAround(new Vector3(0, 0, 0), new Vector3(0, 0, 1), 180);
+                mark.transform.localPosition = new Vector3(-0.55f, 0, 0);
+                break;
+            // sin rotar
+            case Dirs.right:
+                mark.transform.localPosition = new Vector3(0.55f, 0, 0);
+                break;
+            default:
+                break;
+        }
     }
-    public void DisactiveLastDir()
+    public void DisactivateDirItem()
     {
-        if(lastDir)
-            lastDir.SetActive(false);
-    }
-    public void CleanDirItems()
-    {
-        foreach (var x in dirs)
-            x.SetActive(false);
+        mark.transform.rotation = initialMarkRot;
+        mark.SetActive(false);
     }
     public bool Inside(float x, float y)
     {
