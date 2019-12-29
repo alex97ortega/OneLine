@@ -71,13 +71,8 @@ public class ScenesManager : MonoBehaviour {
         GameManager gm = FindObjectOfType<GameManager>();
         if (gm)
         {
-            if (gm.GetNextLevelToPass((int)gm.GetCurrentDifficulty()) == gm.GetCurrentLevel())
-                Debug.Log("He llegado al tope de niveles de dificultad " + gm.GetCurrentDifficulty().ToString());
-            else
-            {
-                if(gm.RemoveCoins((uint)cost))
-                    ChangeScene("Challenge");
-            }
+            if(gm.RemoveCoins((uint)cost))
+               ChangeScene("Challenge");
         }
         else
             Debug.Log("No hay GameManager!!");

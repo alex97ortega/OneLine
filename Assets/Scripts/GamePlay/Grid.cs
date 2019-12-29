@@ -30,8 +30,8 @@ public class Grid : MonoBehaviour {
     public void GenerateGrid(LevelInfo levelInfo)
     {
         // primero inicializo un color aleatorio del tablero
-        Sprite rdnBlock, rdnPointer;
-        GetComponent<SetRandomColor>().SetRandomColors(out rdnBlock, out rdnPointer);
+        Sprite rdnBlock, rdnPointer, rdnHint;
+        GetComponent<SetRandomColor>().SetRandomColors(out rdnBlock, out rdnPointer, out rdnHint);
 
         pointer.SetSprite(rdnPointer);
 
