@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BlockBehaviour : MonoBehaviour {
-
-    public Sprite normalImg;
-    public GameObject mark;
     
+    public GameObject tappedObj;
+    public GameObject mark;
+    public GameObject hint;
+
     public enum Dirs
     {
         left, right, up, down
     }
-    Sprite tappedImg;
 
     bool tapped = false;
     bool isFirst = false;
 
     private int fila, columna;
+    private int ordenHint;
 
     Quaternion initialMarkRot;
 
@@ -24,7 +25,8 @@ public class BlockBehaviour : MonoBehaviour {
     void Start ()
     {
         initialMarkRot = mark.transform.rotation;
-	}
+        
+    }
 	
     public void Tap()
     {
@@ -33,7 +35,7 @@ public class BlockBehaviour : MonoBehaviour {
             if(GetComponentInParent<Grid>().CanBeTapped(this))
             {
                 tapped = true;
-                GetComponent<SpriteRenderer>().sprite = tappedImg;
+                tappedObj.SetActive(true);
             }
         }
         else
@@ -46,7 +48,7 @@ public class BlockBehaviour : MonoBehaviour {
         {
             DisactivateDirItem();
             tapped = false;
-            GetComponent<SpriteRenderer>().sprite = normalImg;
+            tappedObj.SetActive(false);
             return true;
         }
         return false;
@@ -67,11 +69,19 @@ public class BlockBehaviour : MonoBehaviour {
 
     public int GetFila() { return fila; }
     public int GetColumna() { return columna; }
-    public void SetSprite(Sprite newSprite) { tappedImg = newSprite; }
+    public void SetSprite(Sprite newSprite) {
+        tappedObj.GetComponent<SpriteRenderer>().sprite = newSprite;
+        tappedObj.SetActive(false);
+    }
+
+    // para el orden de recorrido final
+    public void SetHintSprite(Sprite newSprite) { hint.GetComponent<SpriteRenderer>().sprite = newSprite; }
+    public void SetOrdenHint(char letra) { ordenHint = letra; }
+    public int GetOrdenHint() { return ordenHint; }
 
     public void SetFirst() {
         isFirst = tapped = true;
-        GetComponent<SpriteRenderer>().sprite = tappedImg;
+        tappedObj.SetActive(true);
     }
 
     // esto es por pura estética, cuadraditos blancos que van 
@@ -106,6 +116,7 @@ public class BlockBehaviour : MonoBehaviour {
         mark.transform.rotation = initialMarkRot;
         mark.SetActive(false);
     }
+    // para el input
     public bool Inside(float x, float y)
     {
         float scaleX = transform.localScale.x/2;
@@ -116,5 +127,31 @@ public class BlockBehaviour : MonoBehaviour {
         if (y < (transform.position.y-scaleY) || y > (transform.position.y + scaleY))
             return false;
         return true;
+    }
+
+    public void ActivateHint(Dirs dir)
+    {
+        hint.SetActive(true);
+        switch (dir)
+        {
+            case Dirs.up:
+                hint.transform.RotateAround(new Vector3(0, 0, 0), new Vector3(0, 0, 1), 90);
+                hint.transform.localPosition = new Vector3(0, 0.55f, 0);
+                break;
+            case Dirs.down:
+                hint.transform.RotateAround(new Vector3(0, 0, 0), new Vector3(0, 0, -1), 90);
+                hint.transform.localPosition = new Vector3(0, -0.55f, 0);
+                break;
+            case Dirs.left:
+                hint.transform.RotateAround(new Vector3(0, 0, 0), new Vector3(0, 0, 1), 180);
+                hint.transform.localPosition = new Vector3(-0.55f, 0, 0);
+                break;
+            // sin rotar
+            case Dirs.right:
+                hint.transform.localPosition = new Vector3(0.55f, 0, 0);
+                break;
+            default:
+                break;
+        }
     }
 }

@@ -26,6 +26,9 @@ public class Grid : MonoBehaviour {
 
     // necesito una pila que guarde el orden de selección
     private Stack<BlockBehaviour> ordenSeleccionados;
+
+    // y también un último bloque mostrado como pista
+    private BlockBehaviour lastHintBlock;
     
     public void GenerateGrid(LevelInfo levelInfo)
     {
@@ -47,15 +50,18 @@ public class Grid : MonoBehaviour {
         {
             for (int j = 0; j < columnas; j++)
             {
-                if(levelInfo.blocks[i,j] != LevelInfo.BlockType.EMPTY)
+                if(levelInfo.blocks[i,j].type != LevelInfo.BlockType.EMPTY)
                 {
                     tablero[i, j] = Instantiate(blockPrefab);
                     tablero[i, j].transform.SetParent(gameObject.transform);
                     tablero[i, j].SetPos(posxIni + (separation * j), posyIni - (separation * i));
                     tablero[i, j].SetCasilla(i, j);
                     tablero[i, j].SetSprite(rdnBlock);
+                    //pistas
+                    tablero[i, j].SetHintSprite(rdnHint);
+                    tablero[i, j].SetOrdenHint(levelInfo.blocks[i, j].order);
 
-                    if(levelInfo.blocks[i, j] == LevelInfo.BlockType.FIRST)
+                    if(levelInfo.blocks[i, j].type == LevelInfo.BlockType.FIRST)
                     {
                         if(ordenSeleccionados.Count != 0)
                         {
@@ -64,6 +70,8 @@ public class Grid : MonoBehaviour {
                         }
                         tablero[i, j].SetFirst();
                         ordenSeleccionados.Push(tablero[i, j]);
+                        // la casilla primera no cuenta como pista para dar
+                        lastHintBlock = tablero[i, j];
                     }
                 }
             }
@@ -167,5 +175,48 @@ public class Grid : MonoBehaviour {
             ordenSeleccionados.Pop();
             ordenSeleccionados.Peek().DisactivateDirItem();
         }
+    }
+
+    // devuelve true si ha encontrado un bloque con pista para dar
+    public bool ShowNextHint()
+    {
+        int lastHint = lastHintBlock.GetOrdenHint();
+
+        int N = lastHintBlock.GetFila() - 1;
+        int S = lastHintBlock.GetFila() + 1;
+        int W = lastHintBlock.GetColumna() - 1;
+        int E = lastHintBlock.GetColumna() + 1;
+
+        // tiene que ser justo el bloque siguiente al último marcado como pista
+        // por narices (si existe) tiene que ser adyacente
+        if (N > -1 && tablero[N, lastHintBlock.GetColumna()] &&
+            tablero[N, lastHintBlock.GetColumna()].GetOrdenHint() == lastHint + 1)
+        {
+            lastHintBlock.ActivateHint(BlockBehaviour.Dirs.up);
+            lastHintBlock = tablero[N, lastHintBlock.GetColumna()];
+            return true;
+        }
+        if (S < filas && tablero[S, lastHintBlock.GetColumna()] 
+            && tablero[S, lastHintBlock.GetColumna()].GetOrdenHint() == lastHint + 1)
+        {
+            lastHintBlock.ActivateHint(BlockBehaviour.Dirs.down);
+            lastHintBlock = tablero[S, lastHintBlock.GetColumna()];
+            return true;
+        }
+        if (E < columnas && tablero[lastHintBlock.GetFila(), E] 
+            && tablero[lastHintBlock.GetFila(), E].GetOrdenHint() == lastHint + 1)
+        {
+            lastHintBlock.ActivateHint(BlockBehaviour.Dirs.right);
+            lastHintBlock = tablero[lastHintBlock.GetFila(), E];
+            return true;
+        }
+        if (W > -1 && tablero[lastHintBlock.GetFila(), W] 
+            && tablero[lastHintBlock.GetFila(), W].GetOrdenHint() == lastHint + 1)
+        {
+            lastHintBlock.ActivateHint(BlockBehaviour.Dirs.left);
+            lastHintBlock = tablero[lastHintBlock.GetFila(), W];
+            return true;
+        }
+        return false;
     }
 }

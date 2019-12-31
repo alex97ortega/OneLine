@@ -13,9 +13,14 @@ public class LevelInfo {
     private uint width;
     private uint height;
 
-    public BlockType[,] blocks;
+    public struct BlockInfo
+    {
+        public BlockType type;
+        public char order;
+    }
+    public BlockInfo[,] blocks;
 
-    public LevelInfo(uint w, uint h, BlockType[,] bs)
+    public LevelInfo(uint w, uint h, BlockInfo[,] bs)
     {
         width =  w;
         height = h;
@@ -38,7 +43,7 @@ public class LevelInfo {
         }
     }
 
-    public BlockType[,] Blocks
+    public BlockInfo[,] Blocks
     {
         get
         {

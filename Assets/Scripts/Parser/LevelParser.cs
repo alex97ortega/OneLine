@@ -31,17 +31,19 @@ public class LevelParser {
     }
 
     // método que parsea un string que represente un nivel
-    private static LevelInfo.BlockType[,] ParseLevel (string str)
+    private static LevelInfo.BlockInfo[,] ParseLevel (string str)
     {
         // nos aseguramos de que el último caracter no sea un  
         // salto de línea, ya que añadiría una fila de más
         if (str[str.Length-1] == '\n')
             str = str.Remove(str.Length - 1);
 
-        List<List<LevelInfo.BlockType>> blocks = new List<List<LevelInfo.BlockType>>();
+        List<List<LevelInfo.BlockInfo>> blocks = new List<List<LevelInfo.BlockInfo>>();
 
         int row = 0;
         int col = 0;
+
+        LevelInfo.BlockInfo aux;
 
         foreach (char c in str)
         {
@@ -50,20 +52,24 @@ public class LevelParser {
                 // el primer caracter siempre va a ser un salto de línea, 
                 // por lo que entrará por aquí la primera vuelta del bucle
                 //  y añadirá la primera fila del nivel
-                blocks.Add(new List<LevelInfo.BlockType>());
+                blocks.Add(new List<LevelInfo.BlockInfo>());
                 row++;
                 col = 0;
             }
             // la 'A' marca la casilla de salida
             else if (c == 'A')
             {
-                blocks[row - 1].Add(LevelInfo.BlockType.FIRST);
+                aux.type = LevelInfo.BlockType.FIRST;
+                aux.order = c;
+                blocks[row - 1].Add(aux);
                 col++;
             }
             // casilla vacía es un espacio
             else if (c == ' ')
             {
-                blocks[row - 1].Add(LevelInfo.BlockType.EMPTY);
+                aux.type = LevelInfo.BlockType.EMPTY;
+                aux.order = c;
+                blocks[row - 1].Add(aux);
                 col++;
             }
             // el resto de letras representa el camino y son casillas normales.
@@ -72,12 +78,14 @@ public class LevelParser {
             // estropea la conversión si no hago esto
             else if (c != 13)
             {
-                blocks[row - 1].Add(LevelInfo.BlockType.NORMAL);
+                aux.type = LevelInfo.BlockType.NORMAL;
+                aux.order = c;
+                blocks[row - 1].Add(aux);
                 col++;
             }
         }
 
-        LevelInfo.BlockType[,] grid = new LevelInfo.BlockType[row, col];
+        LevelInfo.BlockInfo[,] grid = new LevelInfo.BlockInfo[row, col];
 
         // lo paso de lista a matriz (grid)
         for (int i = 0; i < row; i++)

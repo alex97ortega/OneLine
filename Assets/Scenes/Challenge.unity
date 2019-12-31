@@ -1686,7 +1686,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelManager: {fileID: 1897664372}
-  blockPrefab: {fileID: 114306461774882916, guid: 9f5ac1dfcb6e29343b3a112fcb594929,
+  blockPrefab: {fileID: 114642863944252394, guid: 9f5ac1dfcb6e29343b3a112fcb594929,
     type: 2}
   pointer: {fileID: 1774819734}
   separation: 1.1
@@ -2300,6 +2300,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 971e134f61e3dc340bea92fa0b7c2a17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  grid: {fileID: 1454568910}
   winMenu: {fileID: 40762638}
   nextLevelButton: {fileID: 1043637449}
   challengeTimer: {fileID: 184539835}
