@@ -15,8 +15,8 @@ public class Grid : MonoBehaviour {
     private BlockBehaviour[,] tablero;
 
     // esta variable está solo para que no se puedan
-    // quitar bloques marcados al acabar un nivel
-    bool win = false;
+    // quitar o marcar bloques al acabar un nivel
+    bool finish = false;
 
     uint filas;
     uint columnas;
@@ -88,7 +88,7 @@ public class Grid : MonoBehaviour {
     // cuando se levante el dedo de la pantalla
     public void CheckFinish()
     {
-        if (win)
+        if (finish)
             return;
 
         foreach(var b in tablero)
@@ -96,14 +96,16 @@ public class Grid : MonoBehaviour {
             if (b && !b.IsTapped())
                 return;
         }
-        win = true;
+        finish = true;
         levelManager.Win();
     }
 
     // solo puedo seleccionar una nueva casilla si 
     // está pegada a la última que se haya coloreado
     public bool CanBeTapped(BlockBehaviour blockTapped)
-    {        
+    {
+        if (finish)
+            return false;
         // compruebo si la nueva casilla es alguna de las que se encuentra 1
         // posición en cualquiera de las 4 direcciones posibles
         BlockBehaviour lastTapped = ordenSeleccionados.Peek();
@@ -145,7 +147,7 @@ public class Grid : MonoBehaviour {
     // que estamos seleccionando actualmente
     public void UntapOlders(BlockBehaviour blockTapped)
     {
-        if (!win)
+        if (!finish)
         {
             while (ordenSeleccionados.Peek() != blockTapped)
             {
@@ -219,4 +221,5 @@ public class Grid : MonoBehaviour {
         }
         return false;
     }
+    public void Finish() { finish = true; }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+// sólo para el texto que muestre el número de monedas
 public class Coins : MonoBehaviour {
 
     GameManager gm;
@@ -20,7 +21,7 @@ public class Coins : MonoBehaviour {
     {
         if (gm)
         {
-            // para que actualice las monedas
+            // para que actualice las monedas en la misma escena
             if(coins != gm.GetCoins())
             {
                 coins = gm.GetCoins();

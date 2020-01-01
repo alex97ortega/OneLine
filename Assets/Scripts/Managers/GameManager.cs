@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
 
     uint currentLevel;
     uint coins = 50;
+    uint challenges;
 
     struct DifficultyLevelsInfo
     {
@@ -73,6 +74,9 @@ public class GameManager : MonoBehaviour
         }
         return true;
     }
+    //CHALLENGES
+    public uint GetNumChalllenges() { return challenges; }
+    public void ChallengePassed() { challenges++; }
 
     //COINS
     public uint GetCoins() { return coins; }

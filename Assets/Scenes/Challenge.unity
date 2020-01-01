@@ -373,7 +373,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialTimeInSecs: 30
-  loseMenu: {fileID: 1709028900}
+  levelManager: {fileID: 1897664372}
 --- !u!114 &184539836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2302,6 +2302,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grid: {fileID: 1454568910}
   winMenu: {fileID: 40762638}
+  loseMenu: {fileID: 1709028900}
   nextLevelButton: {fileID: 1043637449}
   challengeTimer: {fileID: 184539835}
 --- !u!1 &2005138745

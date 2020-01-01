@@ -7,7 +7,7 @@ public class Timer : MonoBehaviour {
 
     // in secs
     public int initialTimeInSecs;
-    public GameObject loseMenu;
+    public LevelManager levelManager;
 
     float _startTime;
     float _time;
@@ -61,8 +61,8 @@ public class Timer : MonoBehaviour {
         // se acabó
         else
         {
-            if (loseMenu)
-                loseMenu.SetActive(true);
+            if (levelManager)
+                levelManager.Lose();
             GetComponent<Text>().text = "00:00";
         }
     }

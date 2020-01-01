@@ -4,14 +4,14 @@ using UnityEngine;
 
 // como existe un ScenesManager encargado de cambiar de escenas, 
 // en realidad el levelmanager no tiene apenas funciones, más que activar el menú
-// de fin de nivel e ndicar al gamemanager que ha terminado un nivel para que sume
+// de fin de nivel e indicar al gamemanager que ha terminado un nivel para que sume
 // su contador de ganados (porque queda feo que esto lo haga el grid)
 
 // también le he aportado un poco de control sobre las pistas, aunque internamente lo haga todo el grid
 public class LevelManager : MonoBehaviour {
 
     public Grid grid;
-    public GameObject winMenu, nextLevelButton;
+    public GameObject winMenu, loseMenu, nextLevelButton;
     public Timer challengeTimer;
     
 
@@ -19,13 +19,19 @@ public class LevelManager : MonoBehaviour {
     public void Win()
     {
         winMenu.SetActive(true);
+        GameManager gm = FindObjectOfType<GameManager>();
         // digamos que si existe el timer del modo challenge es que estamos en modo challenge
         if (challengeTimer)
+        {
+            if (gm)
+            {
+                gm.ChallengePassed();
+            }
             challengeTimer.Stop();
+        }
         // si no, estamos en modo normal
         else
         {
-            GameManager gm = FindObjectOfType<GameManager>();
             if (gm)
             {
                 bool existeNextLevel = gm.LevelPassed();
@@ -33,7 +39,13 @@ public class LevelManager : MonoBehaviour {
                 if (!existeNextLevel)
                      nextLevelButton.SetActive(false);                
             }
-        }        
+        }
+    }
+    // para cuando no se consigue el challenge
+    public void Lose()
+    {
+        grid.Finish(); // para que no marque más casillas
+        loseMenu.SetActive(true);
     }
     public void Show5Hints(int prize)
     {
@@ -61,7 +73,7 @@ public class LevelManager : MonoBehaviour {
         grid.RestartGrid();
 
         // remover el dinero debería de hacerse lo primero de todo, antes de  
-        // mostrar cualquier pista, pero como tenemos que hacer la comprobación
+        // mostrar cualquier pista, pero como tenemos que hacer la comprobación del primer hint
         // y no influyen el resto de llamadas en el GameManager lo podemos hacer después,
         // el jugador no lo va a a notar
         
