@@ -17,9 +17,10 @@ public class GameManager : MonoBehaviour
         NUM_DIFFICULTIES
     }
     public int[] maxLevels;
+    public LoadManager loadManager;
 
     uint currentLevel;
-    uint coins = 50;
+    uint coins;
     uint challenges;
 
     struct DifficultyLevelsInfo
@@ -39,9 +40,11 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < infoDifficulties.Length; i++)
         {
-            infoDifficulties[i].nextLevelToPass = 1;
             infoDifficulties[i].maxLevels = (uint)maxLevels[i];
         }
+        // cargamos el progreso
+        LoadManager.Data data = loadManager.LoadItems();
+        GetGameStateFromLoad(data);
     }
     
     // DIFICULTIES
@@ -68,6 +71,7 @@ public class GameManager : MonoBehaviour
             if (infoDifficulties[dif].nextLevelToPass < infoDifficulties[dif].maxLevels)
             {
                 infoDifficulties[dif].nextLevelToPass++;
+                SaveGameState();
                 return true;
             }
             return false;
@@ -76,11 +80,12 @@ public class GameManager : MonoBehaviour
     }
     //CHALLENGES
     public uint GetNumChalllenges() { return challenges; }
-    public void ChallengePassed() { challenges++; }
+    public void ChallengePassed() { challenges++; SaveGameState(); }
 
     //COINS
     public uint GetCoins() { return coins; }
-    public void AddCoins(uint quantity) { coins += quantity; }
+    public void AddCoins(uint quantity) { coins += quantity; SaveGameState(); }
+
     // devuelve si ha podido remover la cantidad indicada de monedas, 
     // ya que no se pueden gastar más de las que se tengan en el momento
     public bool RemoveCoins(uint quantity)
@@ -88,8 +93,33 @@ public class GameManager : MonoBehaviour
         if(quantity <= coins)
         {
             coins -= quantity;
+            SaveGameState();
             return true;
         }
         return false;
+    }
+
+    //PROGRESO
+    private void GetGameStateFromLoad(LoadManager.Data data)
+    {
+        // set initial coins and challenges
+        coins = data.coins;
+        challenges = data.challenges;
+
+        // set level progress        
+
+        for (int i = 0; i < infoDifficulties.Length; i++)
+        {
+            infoDifficulties[i].nextLevelToPass = data.nextLevels[i];
+        }
+    }
+
+    private void SaveGameState()
+    {
+        uint[] lvls = new uint[infoDifficulties.Length];
+        for (int i = 0; i < lvls.Length; i++)
+            lvls[i] = infoDifficulties[i].nextLevelToPass;
+
+        loadManager.SaveItems(coins, challenges, lvls);
     }
 }
