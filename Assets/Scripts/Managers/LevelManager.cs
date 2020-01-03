@@ -18,6 +18,7 @@ public class LevelManager : MonoBehaviour {
     // se llama al levantar el dedo de la pantalla y ver que se hayan ocupado todos los bloques
     public void Win()
     {
+
         winMenu.SetActive(true);
         GameManager gm = FindObjectOfType<GameManager>();
         // digamos que si existe el timer del modo challenge es que estamos en modo challenge
@@ -25,6 +26,9 @@ public class LevelManager : MonoBehaviour {
         {
             if (gm)
             {
+                SoundManager sm = FindObjectOfType<SoundManager>();
+                if (sm)
+                    sm.PlayWinChallengeSound();
                 gm.ChallengePassed();
             }
             challengeTimer.Stop();
@@ -34,6 +38,10 @@ public class LevelManager : MonoBehaviour {
         {
             if (gm)
             {
+                SoundManager sm = FindObjectOfType<SoundManager>();
+                if (sm)
+                    sm.PlayWinSound();
+
                 bool existeNextLevel = gm.LevelPassed();
                 // no activo el botón de siguiente nivel si no hay más niveles de esta dificultad
                 if (!existeNextLevel)
@@ -44,6 +52,9 @@ public class LevelManager : MonoBehaviour {
     // para cuando no se consigue el challenge
     public void Lose()
     {
+        SoundManager sm = FindObjectOfType<SoundManager>();
+        if (sm)
+            sm.PlayLoseChallengeSound();
         grid.Finish(); // para que no marque más casillas
         loseMenu.SetActive(true);
     }
@@ -75,6 +86,10 @@ public class LevelManager : MonoBehaviour {
         {
             grid.ShowNextHint();
         }
+        SoundManager sm = FindObjectOfType<SoundManager>();
+        if (sm)
+            sm.PlayHintSound();
+
         // siempre se resetea el tablero al comprar una pista
         grid.RestartGrid();
 

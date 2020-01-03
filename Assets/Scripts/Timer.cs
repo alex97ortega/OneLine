@@ -48,6 +48,13 @@ public class Timer : MonoBehaviour {
             if (_time > initialTimeInSecs - secsCortesia)
                 _time = initialTimeInSecs - secsCortesia;
 
+            // tensión de cronómetro de challenge
+            if(levelManager && !stop && _time < 10)
+            {
+                SoundManager sm = FindObjectOfType<SoundManager>();
+                if (sm)
+                    sm.PlayTimerSound();
+            }
             string min, seg;
             //min
             if (_time >= 60)

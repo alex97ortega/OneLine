@@ -8,10 +8,12 @@ public class ScenesManager : MonoBehaviour {
     // TO MAIN MENU
     public void ChangeToMainMenu()
     {
+        PlayButtonSound();
         ChangeScene("MainMenu");
     }
     public void ChangeToMainMenuWithCoins(int coins)
     {
+        PlayButtonSound();
         GameManager gm = FindObjectOfType<GameManager>();
         if (gm)
         {
@@ -24,10 +26,12 @@ public class ScenesManager : MonoBehaviour {
     // TO SELECT LEVEL
     public void ChangeToSelectLevel()
     {
+        PlayButtonSound();
         ChangeScene("SelectLevel");
     }
     public void ChangeToSelectLevel(int difficulty)
     {
+        PlayButtonSound();
         GameManager gm = FindObjectOfType<GameManager>();
         if (gm)
         {
@@ -40,6 +44,7 @@ public class ScenesManager : MonoBehaviour {
     // TO GAMEPLAY
     public void ChangeToGamePlay(uint level)
     {
+        PlayButtonSound();
         GameManager gm = FindObjectOfType<GameManager>();
         if (gm)
         {
@@ -51,6 +56,7 @@ public class ScenesManager : MonoBehaviour {
     }
     public void ChangeToGamePlayNextLevel()
     {
+        PlayButtonSound();
         GameManager gm = FindObjectOfType<GameManager>();
         if (gm)
         {
@@ -68,6 +74,7 @@ public class ScenesManager : MonoBehaviour {
     // TO CHALLENGE
     public void ChangeToChallenge(int cost)
     {
+        PlayButtonSound();
         GameManager gm = FindObjectOfType<GameManager>();
         if (gm)
         {
@@ -80,10 +87,18 @@ public class ScenesManager : MonoBehaviour {
     // OTHERS
     public void Quit()
     {
+        PlayButtonSound();
         Application.Quit();
     }
     void ChangeScene(string scene)
     {
         SceneManager.LoadScene(scene);
+    }
+    
+    public void PlayButtonSound()
+    {
+        SoundManager sm = FindObjectOfType<SoundManager>();
+        if (sm)
+            sm.PlayButtonSound();
     }
 }

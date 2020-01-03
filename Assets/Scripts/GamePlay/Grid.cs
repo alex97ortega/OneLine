@@ -164,6 +164,9 @@ public class Grid : MonoBehaviour {
         {
             if (b && b.Inside(x,y))
             {
+                SoundManager sm = FindObjectOfType<SoundManager>();
+                if (sm)
+                    sm.PlayTapSound();
                 b.Tap();
                 return;
             }
@@ -171,6 +174,9 @@ public class Grid : MonoBehaviour {
     }
     public void RestartGrid()
     {
+        SoundManager sm = FindObjectOfType<SoundManager>();
+        if (sm)
+            sm.PlayRestartSound();
         while (ordenSeleccionados.Count != 1)
         {
             ordenSeleccionados.Peek().Untap();

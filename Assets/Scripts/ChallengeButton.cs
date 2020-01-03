@@ -19,6 +19,13 @@ public class ChallengeButton : MonoBehaviour
     }
     public void OnPress()
     {
+        SoundManager sm = FindObjectOfType<SoundManager>();
+        if (sm)
+        {
+            sm.PlayButtonSound();
+            sm.PlayChallengeButtonSound();
+        }
+
         GameManager gm = FindObjectOfType<GameManager>();
         if (gm)
         {
