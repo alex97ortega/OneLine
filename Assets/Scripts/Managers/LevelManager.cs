@@ -47,6 +47,12 @@ public class LevelManager : MonoBehaviour {
         grid.Finish(); // para que no marque más casillas
         loseMenu.SetActive(true);
     }
+    public void SaveTimeChallenge()
+    {
+        GameManager gm = FindObjectOfType<GameManager>();
+        if (gm)
+            gm.SetLastChallengeTime(System.DateTime.Now);
+    }
     public void Show5Hints(int prize)
     {
         // ni lo intentamos si el usuario no tiene monedas

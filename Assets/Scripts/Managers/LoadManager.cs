@@ -27,12 +27,12 @@ public class LoadManager : MonoBehaviour {
     }
     // guardar el progreso. lo haremos cada vez que se complete un nivel o desafío, 
     // o se añadan o quiten monedas
-    public void SaveItems(uint coins, uint challenges, uint[] lvls)
+    public void SaveItems(uint coins, uint challenges, DateTime lastChallengeTime, uint[] lvls)
     {
         //Open a stream into the save File
         FileStream serializationStream = new FileStream(path, FileMode.Create);
         // serialize
-        new BinaryFormatter().Serialize(serializationStream, new Data(coins, challenges, lvls));
+        new BinaryFormatter().Serialize(serializationStream, new Data(coins, challenges, lastChallengeTime, lvls));
         //Close the stream
         serializationStream.Close();
     }
@@ -61,12 +61,14 @@ public class LoadManager : MonoBehaviour {
     {
         public uint coins;
         public uint challenges;
+        public DateTime lastChallengeTime;
         public uint[] nextLevels;
 
-        public Data(uint cns, uint challs, uint[] lvls)
+        public Data(uint cns, uint challs, DateTime challTime, uint[] lvls)
         {
             coins = cns;
             challenges = challs;
+            lastChallengeTime = challTime;
             nextLevels = (uint[])lvls.Clone();
         }
     }
@@ -76,7 +78,7 @@ public class LoadManager : MonoBehaviour {
         for (int i = 0; i < lvls.Length; i++)
             lvls[i] = 1;        
 
-        Data data = new Data(0, 0, lvls);
+        Data data = new Data(0, 0, DateTime.MinValue, lvls);
         return data;
     }
 }

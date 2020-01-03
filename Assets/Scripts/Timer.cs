@@ -8,6 +8,8 @@ public class Timer : MonoBehaviour {
     // in secs
     public int initialTimeInSecs;
     public LevelManager levelManager;
+    public GameObject challengeLocked;
+    public bool timeIsSaved;
 
     float _startTime;
     float _time;
@@ -21,13 +23,24 @@ public class Timer : MonoBehaviour {
         // damos 1 segundo de cortesía, porque si no prácticamente 
         // aparece el cronómetro con un segundo ya descontado
         initialTimeInSecs += secsCortesia;
-        _startTime = Time.time + initialTimeInSecs;
+
+        if(timeIsSaved) // cogemos el tiempo del gameManager
+        {
+            GameManager gm = FindObjectOfType<GameManager>();
+            int lastTime = gm.GetLastChallengeTime().Hour * 3600 + gm.GetLastChallengeTime().Minute * 60 + gm.GetLastChallengeTime().Second;
+            int nowTime = System.DateTime.Now.Hour * 3600 + System.DateTime.Now.Minute * 60 + System.DateTime.Now.Second;
+            _startTime = Time.time + (initialTimeInSecs - (nowTime-lastTime));
+        }
+        else // cogemos el tiempo actual
+            _startTime = Time.time + initialTimeInSecs;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if(!stop)
+        if (!stop)
+        {
             _time = _startTime - Time.time;
+        }
         if (_time > 0)
         {
             // por el seg de cortesía, para que nunca pueda aparecer por pantalla 
@@ -61,9 +74,12 @@ public class Timer : MonoBehaviour {
         // se acabó
         else
         {
+            GetComponent<Text>().text = "00:00";
+
             if (levelManager)
                 levelManager.Lose();
-            GetComponent<Text>().text = "00:00";
+            else if (challengeLocked)
+                challengeLocked.SetActive(false);
         }
     }
     public void Stop() { stop = true; }

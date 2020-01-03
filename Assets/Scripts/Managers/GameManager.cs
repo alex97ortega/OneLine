@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     uint currentLevel;
     uint coins;
     uint challenges;
+    System.DateTime lastChallengeTime;
 
     struct DifficultyLevelsInfo
     {
@@ -98,13 +99,17 @@ public class GameManager : MonoBehaviour
         }
         return false;
     }
+    //CHALLENGE TIME
+    public System.DateTime GetLastChallengeTime() {  return lastChallengeTime; }
+    public void SetLastChallengeTime(System.DateTime time) { lastChallengeTime = time; SaveGameState(); }
 
     //PROGRESO
     private void GetGameStateFromLoad(LoadManager.Data data)
     {
-        // set initial coins and challenges
+        // set initial coins and challenge data
         coins = data.coins;
         challenges = data.challenges;
+        lastChallengeTime = data.lastChallengeTime;
 
         // set level progress        
 
@@ -120,6 +125,6 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < lvls.Length; i++)
             lvls[i] = infoDifficulties[i].nextLevelToPass;
 
-        loadManager.SaveItems(coins, challenges, lvls);
+        loadManager.SaveItems(coins, challenges,lastChallengeTime, lvls);
     }
 }
