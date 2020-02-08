@@ -46,7 +46,7 @@ public class SoundManager : MonoBehaviour
         foreach (var x in GetComponents<AudioSource>())
         {
             if (x.clip.name == "timer" && x.isPlaying)
-                Debug.Log("para");
+                x.Stop();
         }
         PlaySound("winChallenge");
     }

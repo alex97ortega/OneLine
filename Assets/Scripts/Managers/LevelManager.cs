@@ -18,7 +18,6 @@ public class LevelManager : MonoBehaviour {
     // se llama al levantar el dedo de la pantalla y ver que se hayan ocupado todos los bloques
     public void Win()
     {
-
         winMenu.SetActive(true);
         GameManager gm = FindObjectOfType<GameManager>();
         // digamos que si existe el timer del modo challenge es que estamos en modo challenge
@@ -103,4 +102,5 @@ public class LevelManager : MonoBehaviour {
             gm.RemoveCoins((uint)prize);
         }
     }
+    public bool HasFinished() { return grid.HasFinished(); }
 }

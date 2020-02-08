@@ -34,20 +34,35 @@ public class GameManager : MonoBehaviour
 
     Difficulty currentDifficulty;
 
-    void Start()
+    private void Awake()
     {
+        // destruyo el gamemanager si ya hay uno en la escena. 
+        // esto me permite cargar distintas escenas que lo necesiten sin tener que ir a la primera
+
+        foreach (var g in FindObjectsOfType<GameManager>())
+        {
+            if (g.gameObject != gameObject)
+                Destroy(gameObject);
+        }
+    }
+
+    void Start()
+    {     
         DontDestroyOnLoad(gameObject);
         infoDifficulties = new DifficultyLevelsInfo[(int)Difficulty.NUM_DIFFICULTIES];
-
+        
         for (int i = 0; i < infoDifficulties.Length; i++)
         {
             infoDifficulties[i].maxLevels = (uint)maxLevels[i];
         }
         // cargamos el progreso
-        LoadManager.Data data = loadManager.LoadItems();
-        GetGameStateFromLoad(data);
+        if(loadManager)
+        {
+            LoadManager.Data data = loadManager.LoadItems();
+            GetGameStateFromLoad(data);
+        }
     }
-    
+
     // DIFICULTIES
     public Difficulty GetCurrentDifficulty() {  return currentDifficulty; }
     public void SetDifficulty(uint dif) { currentDifficulty = (Difficulty)dif; }

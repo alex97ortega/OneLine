@@ -225,4 +225,5 @@ public class Grid : MonoBehaviour {
         return false;
     }
     public void Finish() { finish = true; }
+    public bool HasFinished() { return finish; }
 }
