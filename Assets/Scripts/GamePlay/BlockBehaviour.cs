@@ -34,12 +34,20 @@ public class BlockBehaviour : MonoBehaviour {
         {
             if(GetComponentInParent<Grid>().CanBeTapped(this))
             {
+                SoundManager sm = FindObjectOfType<SoundManager>();
+                if (sm)
+                    sm.PlayTapSound();
                 tapped = true;
                 tappedObj.SetActive(true);
             }
         }
         else
+        {
+            SoundManager sm = FindObjectOfType<SoundManager>();
+            if (sm)
+                sm.PlayTapSound();
             GetComponentInParent<Grid>().UntapOlders(this);
+        }
     }
     // devuelve true si se puede deseleccionar
     public bool Untap()
