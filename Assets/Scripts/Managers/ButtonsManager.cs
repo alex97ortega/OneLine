@@ -6,26 +6,23 @@ using UnityEngine;
 // para cada nivel en el selector de niveles
 public class ButtonsManager : MonoBehaviour {
 
-    public SelectLevelButton buttonPrefab;
+    public SelectLevelButton[] buttons;
 
-    
 	// Use this for initialization
 	void Start () {
         GameManager gm = FindObjectOfType<GameManager>();
-
-        Vector3 initialpos = new Vector3(-300, 500, 0);
+        
         uint numBotones = gm.GetMaxLevels((int)gm.GetCurrentDifficulty());
 
-        for(uint i =0; i < numBotones; i++)
+        for(uint i =0; i < buttons.Length; i++)
         {
-            SelectLevelButton newButton = Instantiate(buttonPrefab);
-            newButton.transform.SetParent(gameObject.transform);
-            newButton.transform.localPosition = initialpos;
-            newButton.transform.localPosition += new Vector3(150 * (i % 5), -150 * (i / 5), 0);
-            newButton.SetLevel(i + 1);
+            buttons[i].SetLevel(i + 1);
+            // se muestran sólo el número de niveles que haya
+            if (i > numBotones-1)
+                buttons[i].gameObject.SetActive(false);
 
-            if (i < gm.GetNextLevelToPass((int)gm.GetCurrentDifficulty()))
-                newButton.Unlock(); // lo desbloqueo
+            else if (i < gm.GetNextLevelToPass((int)gm.GetCurrentDifficulty()))
+                buttons[i].Unlock(); // lo desbloqueo
         }		
 	}	
 }

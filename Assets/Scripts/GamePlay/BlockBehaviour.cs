@@ -43,9 +43,6 @@ public class BlockBehaviour : MonoBehaviour {
         }
         else
         {
-            SoundManager sm = FindObjectOfType<SoundManager>();
-            if (sm)
-                sm.PlayTapSound();
             GetComponentInParent<Grid>().UntapOlders(this);
         }
     }
