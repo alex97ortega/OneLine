@@ -14,10 +14,16 @@ public class AdsManager : MonoBehaviour {
     // type: 0 para dar monedas
     //       1 para challenge
     //       2 para monedas x2
+    //       3 para video non-rewarded
     public void ShowAdv(int type)
     {
 #if UNITY_ADS
-        string videoID = "rewardedVideo";
+        string videoID;
+        if(type == 3)
+            videoID = "video";
+        else
+            videoID = "rewardedVideo";
+
         if (!Advertisement.IsReady(videoID))
         {
             Debug.LogWarning("Video not available");
