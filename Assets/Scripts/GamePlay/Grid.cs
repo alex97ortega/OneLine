@@ -76,12 +76,15 @@ public class Grid : MonoBehaviour {
                 }
             }
         }
-        // hacemos el grid más pequeño para cuando el tablero sea de 7 filas o más
+        // hacemos el grid más pequeño para cuando el tablero sea de 6 filas o más
         // para que no se salga de los bordes
-        if (filas == 7) //EXPERT
-            transform.localScale = new Vector3(0.9f, 0.9f, 1.0f);
-        else if (filas == 8) //MASTER
+
+        if (filas == 6) //ADVANCED
             transform.localScale = new Vector3(0.8f, 0.8f, 1.0f);
+        else if (filas == 7) //EXPERT
+            transform.localScale = new Vector3(0.7f, 0.7f, 1.0f);
+        else if (filas == 8) //MASTER
+            transform.localScale = new Vector3(0.6f, 0.6f, 1.0f);
     }
 
     // sólo se llama aquí para ver si se ha acabado la partida
