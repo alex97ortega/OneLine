@@ -25,7 +25,7 @@ public class InfoLevelText : MonoBehaviour {
 
             // si no, muestro la dificultad que marque y los niveles obtenidos de esa dificultad (MainMenu)
             else
-                GetComponent<Text>().text = gm.GetNextLevelToPass(difficulty).ToString() + "/" +
+                GetComponent<Text>().text = (gm.GetNextLevelToPass(difficulty)-1).ToString() + "/" +
                                              gm.GetMaxLevels(difficulty);            
         }
     }	

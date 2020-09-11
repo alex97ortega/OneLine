@@ -34,21 +34,34 @@ public class GameManager : MonoBehaviour
 
     Difficulty currentDifficulty;
 
+    //singletone
+    public static GameManager instance;
+    public static GameManager Instance
+    {
+        get
+        {
+            return instance;
+        }
+    }
+
     private void Awake()
     {
         // destruyo el gamemanager si ya hay uno en la escena. 
         // esto me permite cargar distintas escenas que lo necesiten sin tener que ir a la primera
-
-        foreach (var g in FindObjectsOfType<GameManager>())
+        if (instance == null)
         {
-            if (g.gameObject != gameObject)
-                Destroy(gameObject);
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
         }
     }
 
     void Start()
     {     
-        DontDestroyOnLoad(gameObject);
         infoDifficulties = new DifficultyLevelsInfo[(int)Difficulty.NUM_DIFFICULTIES];
         
         for (int i = 0; i < infoDifficulties.Length; i++)
@@ -140,6 +153,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < lvls.Length; i++)
             lvls[i] = infoDifficulties[i].nextLevelToPass;
 
-        loadManager.SaveItems(coins, challenges,lastChallengeTime, lvls);
+        if(loadManager)
+            loadManager.SaveItems(coins, challenges,lastChallengeTime, lvls);
     }
 }
