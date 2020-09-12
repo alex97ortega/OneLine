@@ -90,8 +90,13 @@ public class Grid : MonoBehaviour {
         // hasta una resolución de aspecto de 1.667 no hace falta tocar nada
         float relation = (float)Screen.height / (float)Screen.width;
         float relationRef = 800.0f / 480.0f;
-        if (relation < relationRef)
-            transform.localScale = new Vector3(1 - (relationRef - relation), 1 - (relationRef - relation), 1.0f);
+        if (filas > 3 && relation < relationRef)
+        {
+            if(filas < 6)
+                transform.localScale = new Vector3(1 - (relationRef - relation) + 0.1f * filas, 1 - (relationRef - relation) + 0.1f * filas, 1.0f);
+            else
+                transform.localScale = new Vector3(1 - (relationRef - relation), 1 - (relationRef - relation), 1.0f);
+        }
         else
             transform.localScale = initialScale;
 
