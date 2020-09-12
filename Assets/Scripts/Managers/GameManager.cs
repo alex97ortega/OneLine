@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {     
-        infoDifficulties = new DifficultyLevelsInfo[(int)Difficulty.NUM_DIFFICULTIES];
+        infoDifficulties = new DifficultyLevelsInfo[maxLevels.Length];
         
         for (int i = 0; i < infoDifficulties.Length; i++)
         {
@@ -88,6 +88,13 @@ public class GameManager : MonoBehaviour
     public uint GetCurrentLevel() { return currentLevel; }
     public uint GetNextLevelToPass(int difficulty) { return infoDifficulties[difficulty].nextLevelToPass; }
     public uint GetMaxLevels(int difficulty) { return infoDifficulties[difficulty].maxLevels; }
+    public uint GetPassedLevels(int dif)
+    {
+        uint num = infoDifficulties[dif].nextLevelToPass;
+        if (num == infoDifficulties[dif].maxLevels)
+            return num;
+        else return num - 1;
+    }
 
     // devuelve true si existe un nivel posterior al actual
     public bool LevelPassed() {
