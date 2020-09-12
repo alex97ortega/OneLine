@@ -18,12 +18,15 @@ public class ShareImageCanvas : MonoBehaviour
     //function called from a button
     public void ButtonShare()
     {
+#if UNITY_EDITOR
         Debug.Log("EL BOTÓN DE COMPARTIR NO HACE NADA EN EDITOR DE UNITY, SOLO FUNCIONA EN VERSIÓN PARA ANDROID");
+#else
         buttonShare.enabled = false;
         if (!isProcessing)
         {
             StartCoroutine(ShareScreenshot());
         }
+#endif
     }
     public IEnumerator ShareScreenshot()
     {

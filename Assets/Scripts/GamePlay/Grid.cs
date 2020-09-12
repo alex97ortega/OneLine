@@ -23,6 +23,7 @@ public class Grid : MonoBehaviour {
 
     float posxIni;
     float posyIni;
+    Vector3 initialScale;
 
     // necesito una pila que guarde el orden de selección
     private Stack<BlockBehaviour> ordenSeleccionados;
@@ -44,7 +45,7 @@ public class Grid : MonoBehaviour {
         ordenSeleccionados = new Stack<BlockBehaviour>();
 
         posxIni = (columnas-1) * (-separation/2);
-        posyIni = (filas-1) * (separation/2);
+        posyIni = (filas-1) * (separation/2)-0.2f;
         // creo el grid
         for (int i = 0; i < filas; i++)
         {
@@ -76,17 +77,25 @@ public class Grid : MonoBehaviour {
                 }
             }
         }
-        // hacemos el grid más pequeño para cuando el tablero sea de 6 filas o más
-        // para que no se salga de los bordes
+        // hacemos el grid más pequeño independientemente de la resolución para 
+        // que no roce los bordes laterales
+        
+        transform.localScale = new Vector3(0.9f, 0.9f, 1.0f);
 
-        if (filas == 6) //ADVANCED
-            transform.localScale = new Vector3(0.8f, 0.8f, 1.0f);
-        else if (filas == 7) //EXPERT
-            transform.localScale = new Vector3(0.7f, 0.7f, 1.0f);
-        else if (filas == 8) //MASTER
-            transform.localScale = new Vector3(0.6f, 0.6f, 1.0f);
+        initialScale = transform.localScale;
     }
+    private void Update()
+    {
+        // hacer grid más pequeño si no hay espacio de pixeles por la resolución
+        // hasta una resolución de aspecto de 1.667 no hace falta tocar nada
+        float relation = (float)Screen.height / (float)Screen.width;
+        float relationRef = 800.0f / 480.0f;
+        if (relation < relationRef)
+            transform.localScale = new Vector3(1 - (relationRef - relation), 1 - (relationRef - relation), 1.0f);
+        else
+            transform.localScale = initialScale;
 
+    }
     // sólo se llama aquí para ver si se ha acabado la partida
     // cuando se levante el dedo de la pantalla
     public void CheckFinish()
